@@ -2,17 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <script src="EditorOptions.js"></script>
     <script src="ckeditor.js"></script>
     <title>CKEditor 5</title>
+    <style>
+        .ck-editor__editable {
+            min-height: 500px;
+        }
+    </style>
 </head>
 <body>
 
-<textarea name="content" id="editor"></textarea>
+<textarea rows="90" name="content" id="editor"></textarea>
 
 <script>
 
     let editorOptions = {};
+    let editorObj;
 
     /*
    * Below is a list of default editor options. To disable one just put "//" comment left to the title
@@ -47,7 +52,7 @@
         'mergeTableCells', // merge table cells
     ];
 
-    ClassicEditor.create(document.querySelector( '#editor' ), {
+    ClassicEditor.create(document.querySelector('#editor'), {
         toolbar: editorOptions.options,
         fontFamily: {
             options: [
@@ -78,8 +83,14 @@
         simpleUpload: {
             uploadUrl: 'http://<?= $_SERVER['HTTP_HOST']; ?>/upload.php'
         }
-    });
+    }).then(editor => {
+        editorObj = editor;
+    })
+        .catch(error => {
+            console.error(error);
+        });
 </script>
+<script src="apiTest.js"></script>
 
 </body>
 </html>
